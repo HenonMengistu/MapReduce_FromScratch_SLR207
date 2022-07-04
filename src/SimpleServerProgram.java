@@ -82,8 +82,8 @@ public class SimpleServerProgram {
             System.out.println("Sever stopped!");
 
 
-        String filename = args[0];
-        username = args[1];
+        String filename = dirsplits;
+        username = usname;
         int index = Integer.parseInt(args[0].split("-")[1].split("\\.")[0]);
 
         map(filename, index);
@@ -127,6 +127,10 @@ public class SimpleServerProgram {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void shuffle(String filepath, int mapId) {
+    	ArrrayList 
     }
 
 

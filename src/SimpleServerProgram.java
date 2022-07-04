@@ -30,7 +30,7 @@ public class SimpleServerProgram {
     }
 
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, InterruptedException {
 
         ServerSocket listener = null;
         String line;
@@ -125,23 +125,23 @@ public class SimpleServerProgram {
 
 
 
-    public static void map(ArrayList<String> filename,List<BufferedWriter> os) throws IOException {
+    public static void map(ArrayList<String> filename,List<BufferedWriter> os) throws IOException, InterruptedException {
         Path path2 = Paths.get(dirmap);
-        Files.createDirectories(path2);
+        createDirectory("/maps");
 
         for (int i = 0; i < 3 ; i++) {
             String filepathS = "/tmp/hlamboro-21/splits/S"+ i +".txt";
             File myObj = new File(filepathS);
             Scanner myReader = new Scanner(myObj);
-
+            FileWriter fileUM = new FileWriter("/tmp/hlamboro-21/" + "/UM" + 0 + ".txt");
             while (myReader.hasNext()){
                 String data = myReader.next();
                 String datasplit = data.replace(" ","1");
-               // File fileUM = new File("/tmp/hlamboro-21/" + "/UM" + 0 + ".txt");
+                fileUM.write(String.valueOf(datasplit.getBytes(StandardCharsets.UTF_8)));
 
-                os.get(i).write(datasplit);
-                os.get(i).newLine();
-                os.get(i).flush();
+//                os.get(i).write(datasplit);
+//                os.get(i).newLine();
+//                os.get(i).flush();
 
             }
         }
@@ -149,19 +149,7 @@ public class SimpleServerProgram {
 
 
 
-<<<<<<< HEAD
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public static void shuffle(String filepath, int mapId) {
-    	String data = new String(Files.readAllLines(Paths.get(mapPath)));
-    	data.replace("\n"," ");
-    	String [] dataLst = data.split(" ");
-=======
 
->>>>>>> aab57c68c4c9b3aefba9e32f8b8551790124a024
     }
 
 

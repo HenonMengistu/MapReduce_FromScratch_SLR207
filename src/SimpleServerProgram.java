@@ -125,18 +125,15 @@ public class SimpleServerProgram {
 
 
 
-    public static void map(ArrayList<String> filename,List<BufferedWriter> os) throws IOException, InterruptedException {
-        Path path2 = Paths.get(dirmap);
+    public static void map(String filesPath, int id) throws IOException, InterruptedException {
+    	String lines = new String(Files.readAllBytes(Paths.get(filesPath)));
         createDirectory("/maps");
-
-        for (int i = 0; i < 3 ; i++) {
-            String filepathS = "/tmp/hlamboro-21/splits/S"+ i +".txt";
-            File myObj = new File(filepathS);
-            Scanner myReader = new Scanner(myObj);
-            FileWriter fileUM = new FileWriter("/tmp/hlamboro-21/" + "/UM" + 0 + ".txt");
-            while (myReader.hasNext()){
-                String data = myReader.next();
-                String datasplit = data.replace(" ","1");
+        lines.replace("\n", " ");
+        String [] wordLst = lines.split(" ");
+            FileWriter fileUM = new FileWriter("/tmp/hlamboro-21/" + "/UM" + id + ".txt");
+            for (String data: wordLst){
+              
+                String datasplit = data + " 1";
                 fileUM.write(String.valueOf(datasplit.getBytes(StandardCharsets.UTF_8)));
 
 //                os.get(i).write(datasplit);
@@ -144,12 +141,48 @@ public class SimpleServerProgram {
 //                os.get(i).flush();
 
             }
-        }
+        
 
 
 
 
 
+    }
+    public static void shuffle (String filesPath, int id, String servers) {
+    	   ArrayList<String> lines = new ArrayList<String>(Files.readAllLines(Paths.get(filesPath)));
+    	   HashMap<Integer,String> hashedVals = new HashMap<Integer,String>(); 
+    	   String[] serverList = servers.split(" ");
+    	   createDirectory("/shuffles");
+    	   createDirectory("/shufflesreceived");
+    	   String hostname = java.net.InetAddress.getLocalHost().getHostName();
+    	   int hash =0;
+    	   int serverSize = serverList.length;
+    	   for (String line: lines ) {
+    	     line = line.split(" ")[0];
+    	     if(line.hashCode()==Integer.MIN_VALUE) {hash =0;} else {hash = Math.abs(line.hashCode());}
+    	     
+    	     String shuffledFile = "/tmp/"+userid+"/shuffles/"+hash+"-"+hostname+".txt";
+    	     Files.createFile(Paths.get(shuffledFile));
+    	     Files.writeString(Path.of(shuffledFile),line+" 1");
+    	     hashedVals.put(hash, line);		
+    	     int mod_key = hash%serverSize;
+    	     String Dest = "/tmp/"+userid+"/shufflesreceived/"+hash+"-"+hostname+".txt";
+    	     String Host = serverList[mod_key];
+    	     String args = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -q " +shuffledFile + " " + userid + "@" + Host + ":" + Dest ;
+    	         //System.out.println("Running command : " + args);
+    	         Process p = new ProcessBuilder(args.split(" ")).start();
+    	         p.waitFor();
+    	     }
+
+    	     // asynchronous ; we run them all THEN we wait for them all
+    	   
+    	   System.out.println("Shuffling completed");
+    	   
+    	   
+    	 }
+    
+    public static void reduce(String filesPath, int id) {
+    	
     }
 
 

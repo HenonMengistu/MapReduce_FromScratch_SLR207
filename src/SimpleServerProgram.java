@@ -105,6 +105,9 @@ public class SimpleServerProgram {
                         fileWriter.flush();
 
                     }
+                    map(filename,Integer.parseInt(idx));
+                    shuffle(filename,Integer.parseInt(idx),serverString);
+
                 }
                 fileWriter.close();
             } catch(IOException e){
@@ -119,8 +122,7 @@ public class SimpleServerProgram {
         for (File file : Objects.requireNonNull(splitsDirectory.listFiles())) {
             mapped.add(file.getAbsolutePath());
         }
-        map(mapped,osL);
-
+        
     }
 
 

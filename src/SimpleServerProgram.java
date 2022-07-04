@@ -5,10 +5,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class SimpleServerProgram {
     static String username;
+    static String userid = "hlamboro-21";
+    static String dirmap = "/tmp/hlamboro-21/maps/";
+    public String serversString;
+
     public static void createDirectory(String dirName) throws InterruptedException, IOException {
 
         String dirPath = "/tmp/" + userid + dirName;
@@ -37,6 +44,10 @@ public class SimpleServerProgram {
         String dirsplits = "/tmp/hlamboro-21/splits/";
         String usname= "hlamboro-21";
 
+        final List<BufferedWriter> osL = new ArrayList<>();
+        final List<BufferedReader> isL = new ArrayList<>();
+
+
 
         // Try to open a server socket on port 9999
         // Note that we can't choose a port less than 1023 if we are not
@@ -63,7 +74,6 @@ public class SimpleServerProgram {
 
             try {
 
-
                 Path path1 = Paths.get(dirsplits);
                 Files.createDirectories(path1);
                 System.out.println(path1 + " Directory is created!");
@@ -71,36 +81,30 @@ public class SimpleServerProgram {
             } catch (IOException e) {
                 System.err.println("Failed to create directory!" + e.getMessage());
             }
-                FileWriter fileWriter = new FileWriter(dirsplits + "/S" + 0 + ".txt");
+                String filename = is.readLine();
+                String idx = filename.split("/S")[2].split(".txt")[0];
+                FileWriter fileWriter = new FileWriter(dirsplits + "/S" + idx + ".txt");
+                String serverString = is.readLine();
                 os.newLine();
                 os.flush();
 
-            String filename = is.readLine();
-            username = usname;
-            int index = Integer.parseInt(filename.split("/S")[2].split(".txt")[0]);
-            String data = is.readLine();
-            Files.createFile(Path.of(filename));
-            Files.writeString(Path.of(filename),data);
 
-            map(filename, index);
+                while (true) {
+                    // Read data to the server (sent from client).
+                    line = is.readLine();
+                    System.out.println(line);
 
+                    if (line.equals("QUIT")) {
+                        os.write(">> OK");
+                        os.newLine();
+                        os.flush();
+                        break;
+                    } else {
+                        fileWriter.write(line);
+                        fileWriter.flush();
 
-
-//                while (true) {
-//                    // Read data to the server (sent from client).
-//                    line = is.readLine();
-//                    System.out.println(line);
-//
-//                    if (line.equals("QUIT")) {
-//                        os.write(">> OK");
-//                        os.newLine();
-//                        os.flush();
-//                        break;
-//                    } else {
-//                        fileWriter.write(line);
-//                        fileWriter.flush();
-//                    }
-//                }
+                    }
+                }
                 fileWriter.close();
             } catch(IOException e){
                 System.out.println(e);
@@ -108,52 +112,31 @@ public class SimpleServerProgram {
             }
             System.out.println("Sever stopped!");
 
-
-
-
     }
 
-    static String getBaseDirectory(String subdir) {
-        return String.format("/tmp/%s/%s", username, subdir);
-    }
 
-    static void map(String filename, int index) {
-        StringBuilder output = new StringBuilder();
 
-        BufferedReader bufferedReader;
-        Vector<String> mappedElements = new Vector<>();
+    public static void map(String filename,List<BufferedWriter> os) throws IOException {
+        Path path2 = Paths.get(dirmap);
+        Files.createDirectories(path2);
 
-        try {
-            bufferedReader = new BufferedReader(new FileReader(filename));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] words = line.split(" ");
+        for (int i = 0; i < 3 ; i++) {
+            String filepathS = "/tmp/hlamboro-21/splits/S"+ i +".txt";
+            File myObj = new File(filepathS);
+            Scanner myReader = new Scanner(myObj);
 
-                for (String word : words) {
-                    mappedElements.add(word + " " + 1);
-                }
+            while (myReader.hasNextLine()){
+                String data = myReader.next();
+                data.split(" ");
+                //data.g  .put(word,count);
+                //os.get(i).write(data);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        try {
-            mappedElements.forEach((x) -> {
-                output.append(x).append("\n");
-            });
 
-            String unsortedMapFilePath = String.format("%s/UM-" + index + ".txt", getBaseDirectory("maps"));
-            System.out.println(unsortedMapFilePath);
 
-            Files.write(Paths.get(unsortedMapFilePath), output.toString().getBytes(StandardCharsets.UTF_8));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public static void shuffle(String filepath, int mapId) {
-    	ArrrayList 
+
     }
 
 

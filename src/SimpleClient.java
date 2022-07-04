@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class SimpleClient {
 
     static String username = "hlamboro-21";
+    public static String servers = "tp-t310-08 tp-t310-09 tp-t310-10";
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -53,9 +54,6 @@ public class SimpleClient {
             splits.add(file.getAbsolutePath());
         }
         copySplits(splits, ip,os);
-
-
-
     }
 
 
@@ -70,9 +68,9 @@ public class SimpleClient {
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
-
                     os.get(fileindex).write(filenameS);
                     os.get(fileindex).newLine();
+                    os.get(fileindex).write(servers);
                     os.get(fileindex).write(data);
                     os.get(fileindex).newLine();
                     os.get(fileindex).flush();

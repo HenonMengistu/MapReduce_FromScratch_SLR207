@@ -85,6 +85,7 @@ public class SimpleServerProgram {
                 String idx = filename.split("/S")[2].split(".txt")[0];
                 FileWriter fileWriter = new FileWriter(dirsplits + "/S" + idx + ".txt");
                 String serverString = is.readLine();
+                String mapPath = "/tmp/"+userid+"/maps/UM"+idx+".txt";
                 os.newLine();
                 os.flush();
 
@@ -106,7 +107,7 @@ public class SimpleServerProgram {
 
                     }
                     map(filename,Integer.parseInt(idx));
-                    shuffle(filename,Integer.parseInt(idx),serverString);
+                    shuffle(mapPath,Integer.parseInt(idx),serverString);
 
                 }
                 fileWriter.close();
@@ -138,9 +139,7 @@ public class SimpleServerProgram {
                 String datasplit = data + " 1";
                 fileUM.write(String.valueOf(datasplit.getBytes(StandardCharsets.UTF_8)));
 
-//                os.get(i).write(datasplit);
-//                os.get(i).newLine();
-//                os.get(i).flush();
+
 
             }
         
@@ -184,6 +183,36 @@ public class SimpleServerProgram {
     	 }
     
     public static void reduce(String filesPath, int id) {
+    	String[] pathnames;
+
+      
+        File f = new File(filesPath);
+        HashMap<String, Integer> pairings = new HashMap<String, Integer>();
+        // Populates the array with names of files and directories
+        pathnames = f.list();
+        createDirectory("/reduce");
+        String reduceFile = "/tmp/"+userid+"/reduce/R"+id+".txt";
+        Files.createFile(Paths.get(reduceFile));
+        // For each pathname in the pathnames array
+        for (String pathname : pathnames) {
+            
+        	String line = new String(Files.readAllBytes(Paths.get(pathname)));
+        	if (!pairings.containsKey(line)) {
+        		pairings.put(line, 1);
+        		
+        	} else {
+        		int key = pairings.get(line);
+        		key+=1;
+        		pairings.replace(line, key);
+        	}
+        	
+        }
+        for (String word : pairings.keySet()) {
+            int val = pairings.get(word);
+            String line = word + " " + val;
+        	Files.writeString(Path.of(reduceFile),line);
+        	
+        }
     	
     }
 

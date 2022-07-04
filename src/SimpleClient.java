@@ -68,6 +68,7 @@ public class SimpleClient {
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
+
                     os.get(fileindex).write(filenameS);
                     os.get(fileindex).newLine();
                     os.get(fileindex).write(servers);

@@ -5,10 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
 
 public class SimpleServerProgram {
     static String username;
@@ -33,7 +30,7 @@ public class SimpleServerProgram {
     }
 
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
 
         ServerSocket listener = null;
         String line;
@@ -49,12 +46,15 @@ public class SimpleServerProgram {
 
 
 
+
+
         // Try to open a server socket on port 9999
         // Note that we can't choose a port less than 1023 if we are not
         // privileged users (root)
 
         try {
             listener = new ServerSocket(8787);
+
         } catch (IOException e) {
             System.out.println(e);
             System.exit(1);
@@ -89,6 +89,7 @@ public class SimpleServerProgram {
                 os.flush();
 
 
+            File fileUM = new File("/tmp/hlamboro-21/" + "/UM" + 0 + ".txt");
                 while (true) {
                     // Read data to the server (sent from client).
                     line = is.readLine();
@@ -112,11 +113,19 @@ public class SimpleServerProgram {
             }
             System.out.println("Sever stopped!");
 
+
+        ArrayList<String> mapped = new ArrayList<>();
+        File splitsDirectory = new File("/Users/henonkb/Sockets/splits");
+        for (File file : Objects.requireNonNull(splitsDirectory.listFiles())) {
+            mapped.add(file.getAbsolutePath());
+        }
+        map(mapped,osL);
+
     }
 
 
 
-    public static void map(String filename,List<BufferedWriter> os) throws IOException {
+    public static void map(ArrayList<String> filename,List<BufferedWriter> os) throws IOException {
         Path path2 = Paths.get(dirmap);
         Files.createDirectories(path2);
 
@@ -125,11 +134,15 @@ public class SimpleServerProgram {
             File myObj = new File(filepathS);
             Scanner myReader = new Scanner(myObj);
 
-            while (myReader.hasNextLine()){
+            while (myReader.hasNext()){
                 String data = myReader.next();
-                data.split(" ");
-                //data.g  .put(word,count);
-                //os.get(i).write(data);
+                String datasplit = data.replace(" ","1");
+               // File fileUM = new File("/tmp/hlamboro-21/" + "/UM" + 0 + ".txt");
+
+                os.get(i).write(datasplit);
+                os.get(i).newLine();
+                os.get(i).flush();
+
             }
         }
 

@@ -9,6 +9,22 @@ import java.util.Vector;
 
 public class SimpleServerProgram {
     static String username;
+    public static void createDirectory(String dirName) throws InterruptedException, IOException {
+
+        String dirPath = "/tmp/" + userid + dirName;
+        ProcessBuilder pb = new ProcessBuilder("mkdir", "-p", dirPath);
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
+
+        int err = process.waitFor();
+        if (err == 0) {
+            System.out.println("Directory created successfully !");
+        } else {
+            System.out.println("Cannot create directory !");
+
+        }
+    }
+
 
     public static void main(String args[]) {
 
@@ -83,14 +99,8 @@ public class SimpleServerProgram {
 
 
         String filename = dirsplits;
-<<<<<<< HEAD
         username = usname;
-        int index = Integer.parseInt(args[0].split("-")[1].split("\\.")[0]);
-=======
-        username = "usname";
-        int index = Integer.parseInt(dirsplits.split("-")[1].split("\\.")[0]);
->>>>>>> 6ec9910498209cc56ab0f63362893bf99c51b93a
-
+        int index = Integer.parseInt(dirsplits.split("-")[1].split("\\.")[0])
         map(filename, index);
 
     }

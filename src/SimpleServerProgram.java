@@ -5,10 +5,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class SimpleServerProgram {
     static String username;
+    static String userid = "hlamboro-21";
+    static String dirmap = "/tmp/hlamboro-21/maps/";
+    public String serversString;
+
     public static void createDirectory(String dirName) throws InterruptedException, IOException {
 
         String dirPath = "/tmp/" + userid + dirName;
@@ -33,9 +40,13 @@ public class SimpleServerProgram {
         BufferedReader is;
         BufferedWriter os;
         Socket socketOfServer = null;
-        //String filename = "/tmp/hlamboro-21/splits/splitsfile";
+        //String filename = "/tmp/hlamboro-21/splits/S0.txt)";
         String dirsplits = "/tmp/hlamboro-21/splits/";
         String usname= "hlamboro-21";
+
+        final List<BufferedWriter> osL = new ArrayList<>();
+        final List<BufferedReader> isL = new ArrayList<>();
+
 
 
         // Try to open a server socket on port 9999
@@ -70,7 +81,10 @@ public class SimpleServerProgram {
             } catch (IOException e) {
                 System.err.println("Failed to create directory!" + e.getMessage());
             }
-                FileWriter fileWriter = new FileWriter(dirsplits + "/S" + 0 + ".txt");
+                String filename = is.readLine();
+                String idx = filename.split("/S")[2].split(".txt")[0];
+                FileWriter fileWriter = new FileWriter(dirsplits + "/S" + idx + ".txt");
+                String serverString = is.readLine();
                 os.newLine();
                 os.flush();
 
@@ -88,6 +102,7 @@ public class SimpleServerProgram {
                     } else {
                         fileWriter.write(line);
                         fileWriter.flush();
+
                     }
                 }
                 fileWriter.close();
@@ -97,48 +112,31 @@ public class SimpleServerProgram {
             }
             System.out.println("Sever stopped!");
 
-
-        String filename = dirsplits;
-        username = usname;
-        int index = Integer.parseInt(dirsplits.split("-")[1].split("\\.")[0])
-        map(filename, index);
-
     }
 
-    static String getBaseDirectory(String subdir) {
-        return String.format("/tmp/%s/%s", username, subdir);
-    }
 
-    static void map(String filename, int index) {
-        StringBuilder output = new StringBuilder();
 
-        BufferedReader bufferedReader;
-        Vector<String> mappedElements = new Vector<>();
+    public static void map(String filename,List<BufferedWriter> os) throws IOException {
+        Path path2 = Paths.get(dirmap);
+        Files.createDirectories(path2);
 
-        try {
-            bufferedReader = new BufferedReader(new FileReader(filename));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] words = line.split(" ");
+        for (int i = 0; i < 3 ; i++) {
+            String filepathS = "/tmp/hlamboro-21/splits/S"+ i +".txt";
+            File myObj = new File(filepathS);
+            Scanner myReader = new Scanner(myObj);
 
-                for (String word : words) {
-                    mappedElements.add(word + " " + 1);
-                }
+            while (myReader.hasNextLine()){
+                String data = myReader.next();
+                data.split(" ");
+                //data.g  .put(word,count);
+                //os.get(i).write(data);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        try {
-            mappedElements.forEach((x) -> {
-                output.append(x).append("\n");
-            });
 
-            String unsortedMapFilePath = String.format("%s/UM-" + index + ".txt", getBaseDirectory("maps"));
-            System.out.println(unsortedMapFilePath);
 
-            Files.write(Paths.get(unsortedMapFilePath), output.toString().getBytes(StandardCharsets.UTF_8));
 
+<<<<<<< HEAD
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,6 +146,9 @@ public class SimpleServerProgram {
     	String data = new String(Files.readAllLines(Paths.get(mapPath)));
     	data.replace("\n"," ");
     	String [] dataLst = data.split(" ");
+=======
+
+>>>>>>> aab57c68c4c9b3aefba9e32f8b8551790124a024
     }
 
 

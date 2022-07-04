@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class SimpleClient {
 
     static String username = "hlamboro-21";
+    public static String servers = "tp-t310-08 tp-t310-09 tp-t310-10";
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -62,14 +63,18 @@ public class SimpleClient {
         for (int fileindex = 0; fileindex < ips.size(); fileindex++) {
 
             try {
-                File myObj = new File("/Users/henonkb/Sockets/splits/S" + fileindex + ".txt");
+                String filenameS = "/Users/henonkb/Sockets/splits/S" + fileindex + ".txt";
+                File myObj = new File(filenameS);
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
-
+                    os.get(fileindex).write(filenameS);
+                    os.get(fileindex).newLine();
+                    os.get(fileindex).write(servers);
                     os.get(fileindex).write(data);
                     os.get(fileindex).newLine();
                     os.get(fileindex).flush();
+
 
                     System.out.println(data);
                 }

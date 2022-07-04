@@ -86,9 +86,10 @@ public class SimpleServerProgram {
                 FileWriter fileWriter = new FileWriter(dirsplits + "/S" + idx + ".txt");
                 String serverString = is.readLine();
                 String mapPath = "/tmp/"+userid+"/maps/UM"+idx+".txt";
+                String shufflePath = "/tmp/"+userid+"/shufflesreceived";
                 os.newLine();
                 os.flush();
-
+                String op = args[0];
 
             File fileUM = new File("/tmp/hlamboro-21/" + "/UM" + 0 + ".txt");
                 while (true) {
@@ -106,9 +107,17 @@ public class SimpleServerProgram {
                         fileWriter.flush();
 
                     }
+                    switch (Integer.parseInt(op)) {
+                    case 0:
                     map(filename,Integer.parseInt(idx));
+                    break;
+                    case 1:
                     shuffle(mapPath,Integer.parseInt(idx),serverString);
-
+                    break;
+                    case 2:
+                    reduce(shufflePath,Integer.parseInt(idx));
+                    break;
+                    }
                 }
                 fileWriter.close();
             } catch(IOException e){
@@ -139,9 +148,17 @@ public class SimpleServerProgram {
                 fileUM.write(String.valueOf(datasplit.getBytes(StandardCharsets.UTF_8)));
 
             }
+<<<<<<< HEAD
 
     }
     public static void shuffle (String filesPath, int id, String servers) throws IOException, InterruptedException {
+=======
+
+
+    }
+    
+    public static void shuffle (String filesPath, int id, String servers) {
+>>>>>>> 887ffc201bf62b65cb71e7c23bc3cd47241663d3
     	   ArrayList<String> lines = new ArrayList<String>(Files.readAllLines(Paths.get(filesPath)));
     	   HashMap<Integer,String> hashedVals = new HashMap<Integer,String>(); 
     	   String[] serverList = servers.split(" ");

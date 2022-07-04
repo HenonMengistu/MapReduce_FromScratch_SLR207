@@ -145,7 +145,9 @@ public class SimpleServerProgram {
     }
     
     public static void shuffle(String filepath, int mapId) {
-    	ArrrayList 
+    	String data = new String(Files.readAllLines(Paths.get(mapPath)));
+    	data.replace("\n"," ");
+    	String [] dataLst = data.split(" ");
     }
 
 

@@ -30,7 +30,7 @@ public class SimpleServerProgram {
     }
 
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, InterruptedException {
 
         ServerSocket listener = null;
         String line;
@@ -119,14 +119,13 @@ public class SimpleServerProgram {
         for (File file : Objects.requireNonNull(splitsDirectory.listFiles())) {
             mapped.add(file.getAbsolutePath());
         }
-
         map(mapped,osL);
 
     }
 
 
 
-    public static void map(filename,List<BufferedWriter> os) throws IOException, InterruptedException {
+    public static void map(ArrayList<String> filename,List<BufferedWriter> os) throws IOException, InterruptedException {
         Path path2 = Paths.get(dirmap);
         createDirectory("/maps");
 

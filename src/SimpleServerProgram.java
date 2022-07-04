@@ -119,7 +119,7 @@ public class SimpleServerProgram {
         for (File file : Objects.requireNonNull(splitsDirectory.listFiles())) {
             mapped.add(file.getAbsolutePath());
         }
-        map(mapped,osL);
+        map(dirsplits,osL);
 
     }
 
@@ -148,7 +148,7 @@ public class SimpleServerProgram {
 
 
     }
-    public static void shuffle (String filesPath, int id, String servers) {
+    public static void shuffle (String filesPath, int id, String servers) throws IOException, InterruptedException {
     	   ArrayList<String> lines = new ArrayList<String>(Files.readAllLines(Paths.get(filesPath)));
     	   HashMap<Integer,String> hashedVals = new HashMap<Integer,String>(); 
     	   String[] serverList = servers.split(" ");

@@ -122,12 +122,6 @@ public class SimpleServerProgram {
         for (File file : Objects.requireNonNull(splitsDirectory.listFiles())) {
             mapped.add(file.getAbsolutePath());
         }
-<<<<<<< HEAD
-        map(dirsplits,osL);
-
-=======
-        
->>>>>>> 8f61904584ca49e66c1386340ca5e2dc80049ca5
     }
 
 
@@ -138,20 +132,13 @@ public class SimpleServerProgram {
         lines.replace("\n", " ");
         String [] wordLst = lines.split(" ");
             FileWriter fileUM = new FileWriter("/tmp/hlamboro-21/" + "/UM" + id + ".txt");
-            for (String data: wordLst){
-              
+            for (String data: wordLst) {
+
                 String datasplit = data + " 1";
                 fileUM.write(String.valueOf(datasplit.getBytes(StandardCharsets.UTF_8)));
 
-//                os.get(i).write(datasplit);
-//                os.get(i).newLine();
-//                os.get(i).flush();
 
             }
-        
-
-
-
 
 
     }

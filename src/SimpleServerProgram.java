@@ -17,7 +17,7 @@ public class SimpleServerProgram {
         BufferedReader is;
         BufferedWriter os;
         Socket socketOfServer = null;
-        //String filename = "/tmp/hlamboro-21/splits/splitsfile";
+        //String filename = "/tmp/hlamboro-21/splits/S0.txt)";
         String dirsplits = "/tmp/hlamboro-21/splits/";
         String usname= "hlamboro-21";
 
@@ -47,6 +47,7 @@ public class SimpleServerProgram {
 
             try {
 
+
                 Path path1 = Paths.get(dirsplits);
                 Files.createDirectories(path1);
                 System.out.println(path1 + " Directory is created!");
@@ -58,22 +59,32 @@ public class SimpleServerProgram {
                 os.newLine();
                 os.flush();
 
+            String filename = is.readLine();
+            username = usname;
+            int index = Integer.parseInt(filename.split("/S")[2].split(".txt")[0]);
+            String data = is.readLine();
+            Files.createFile(Path.of(filename));
+            Files.writeString(Path.of(filename),data);
 
-                while (true) {
-                    // Read data to the server (sent from client).
-                    line = is.readLine();
-                    System.out.println(line);
+            map(filename, index);
 
-                    if (line.equals("QUIT")) {
-                        os.write(">> OK");
-                        os.newLine();
-                        os.flush();
-                        break;
-                    } else {
-                        fileWriter.write(line);
-                        fileWriter.flush();
-                    }
-                }
+
+
+//                while (true) {
+//                    // Read data to the server (sent from client).
+//                    line = is.readLine();
+//                    System.out.println(line);
+//
+//                    if (line.equals("QUIT")) {
+//                        os.write(">> OK");
+//                        os.newLine();
+//                        os.flush();
+//                        break;
+//                    } else {
+//                        fileWriter.write(line);
+//                        fileWriter.flush();
+//                    }
+//                }
                 fileWriter.close();
             } catch(IOException e){
                 System.out.println(e);
@@ -82,11 +93,7 @@ public class SimpleServerProgram {
             System.out.println("Sever stopped!");
 
 
-        String filename = dirsplits;
-        username = "usname";
-        int index = Integer.parseInt(dirsplits.split("-")[1].split("\\.")[0]);
 
-        map(filename, index);
 
     }
 

@@ -53,6 +53,9 @@ public class SimpleClient {
             splits.add(file.getAbsolutePath());
         }
         copySplits(splits, ip,os);
+
+
+
     }
 
 
@@ -62,14 +65,18 @@ public class SimpleClient {
         for (int fileindex = 0; fileindex < ips.size(); fileindex++) {
 
             try {
-                File myObj = new File("/Users/henonkb/Sockets/splits/S" + fileindex + ".txt");
+                String filenameS = "/Users/henonkb/Sockets/splits/S" + fileindex + ".txt";
+                File myObj = new File(filenameS);
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
 
+                    os.get(fileindex).write(filenameS);
+                    os.get(fileindex).newLine();
                     os.get(fileindex).write(data);
                     os.get(fileindex).newLine();
                     os.get(fileindex).flush();
+
 
                     System.out.println(data);
                 }

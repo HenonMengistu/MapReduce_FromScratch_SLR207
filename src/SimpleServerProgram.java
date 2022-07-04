@@ -19,7 +19,7 @@ public class SimpleServerProgram {
         Socket socketOfServer = null;
         //String filename = "/tmp/hlamboro-21/splits/splitsfile";
         String dirsplits = "/tmp/hlamboro-21/splits/";
-        //String username = "/tmp/hlamboro-21";
+        String usname= "hlamboro-21";
 
 
         // Try to open a server socket on port 9999
@@ -82,9 +82,9 @@ public class SimpleServerProgram {
             System.out.println("Sever stopped!");
 
 
-        String filename = args[0];
-        username = args[1];
-        int index = Integer.parseInt(args[0].split("-")[1].split("\\.")[0]);
+        String filename = dirsplits;
+        username = "usname";
+        int index = Integer.parseInt(dirsplits.split("-")[1].split("\\.")[0]);
 
         map(filename, index);
 

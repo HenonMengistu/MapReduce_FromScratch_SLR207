@@ -85,9 +85,7 @@ public class SimpleClient {
                 e.printStackTrace();
             }
         }
-
     }
-
     private static void readLines(Process p) throws IOException {
         Scanner scanner = new Scanner(p.getInputStream());
 
@@ -105,7 +103,4 @@ public class SimpleClient {
 
         p.destroy();
     }
-
-
-
 }
